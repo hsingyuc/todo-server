@@ -20,7 +20,7 @@ export class TodosController {
 
     async remove(request: Request, response: Response, next: NextFunction) {
         let todoToRemove = await this.todosRepository.findOne(request.params.id);
-        await this.todosRepository.remove(todoToRemove);
+        return await this.todosRepository.remove(todoToRemove);
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
