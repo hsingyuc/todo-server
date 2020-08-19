@@ -14,7 +14,7 @@ export class UserController {
         return this.userRepository.findOne(request.params.id);
     }
 
-    async save(request: Request, response: Response, next: NextFunction) {
+    async create(request: Request, response: Response, next: NextFunction) {
         return this.userRepository.save(request.body);
     }
 
