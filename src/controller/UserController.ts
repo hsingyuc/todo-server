@@ -14,13 +14,13 @@ export class UserController {
         return this.userRepository.findOne(request.params.id);
     }
 
-    async save(request: Request, response: Response, next: NextFunction) {
+    async create(request: Request, response: Response, next: NextFunction) {
         return this.userRepository.save(request.body);
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
         let userToRemove = await this.userRepository.findOne(request.params.id);
-        await this.userRepository.remove(userToRemove);
+        return await this.userRepository.remove(userToRemove);
     }
 
 }

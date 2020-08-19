@@ -14,17 +14,15 @@ export class TodosController {
         return this.todosRepository.findOne(request.params.id);
     }
 
-    async save(request: Request, response: Response, next: NextFunction) {
+    async create(request: Request, response: Response, next: NextFunction) {
         return this.todosRepository.save(request.body);
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
         let todoToRemove = await this.todosRepository.findOne(request.params.id);
-        await this.todosRepository.remove(todoToRemove);
+        return await this.todosRepository.remove(todoToRemove);
     }
 
-
-    //@Todo test if works
     async update(request: Request, response: Response, next: NextFunction) {
         const foundOne = await this.todosRepository.findOne(request.params.id);
 
