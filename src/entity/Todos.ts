@@ -10,8 +10,11 @@ export class Todos {
 	@Column({ default: null })
 	filename: string;
 
-	@Column({ type: 'date' })
-	created: Date;
+	@CreateDateColumn()
+	public createdAt: Date;
+
+	@UpdateDateColumn()
+	public updatedAt: Date;
 
 	@Column("longtext")
 	content: string;
