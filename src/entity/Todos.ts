@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./User";
 
 @Entity()
@@ -10,13 +10,16 @@ export class Todos {
 	@Column({ default: null })
 	filename: string;
 
-	@Column({ type: 'date' })
-	created: Date;
+	@CreateDateColumn()
+	public createdAt: Date;
+
+	@UpdateDateColumn()
+	public updatedAt: Date;
 
 	@Column("longtext")
 	content: string;
 
-	@ManyToOne(type => User, user => user.todos)
+	@ManyToOne(type => User, user => user.todos, { onDelete: 'CASCADE' })
 	user: User;
 
 }
