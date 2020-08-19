@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./User";
 
 @Entity()
@@ -16,7 +16,7 @@ export class Todos {
 	@Column("longtext")
 	content: string;
 
-	@ManyToOne(type => User, user => user.todos)
+	@ManyToOne(type => User, user => user.todos, { onDelete: 'CASCADE' })
 	user: User;
 
 }
