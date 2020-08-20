@@ -15,7 +15,9 @@ export class UserController {
     }
 
     async create(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.save(request.body);
+        const userObject = this.userRepository.create(request.body);
+        const user = await this.userRepository.save(userObject);
+        return { data: { user } };
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
