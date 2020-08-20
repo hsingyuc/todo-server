@@ -15,7 +15,17 @@ export class TodosController {
     }
 
     async create(request: Request, response: Response, next: NextFunction) {
-        return this.todosRepository.save(request.body);
+        if (!request.body.filename || !request.body.content) {
+            response.status(422);
+            return { message: "Empty form won't be created." }
+        }
+
+        const todoCreated = await this.todosRepository.save(request.body);
+        if (!todoCreated) {
+            response.status(500);
+            return { message: 'Todo could not be created.' };
+        }
+        return todoCreated;
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
