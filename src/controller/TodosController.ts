@@ -11,7 +11,13 @@ export class TodosController {
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        return this.todosRepository.findOne(request.params.id);
+        const foundOne = await this.todosRepository.findOne(request.params.id);
+
+        if (!foundOne) {
+            response.status(404);
+            return { message: 'Post not found.' };
+        }
+        return foundOne;
     }
 
     async create(request: Request, response: Response, next: NextFunction) {
