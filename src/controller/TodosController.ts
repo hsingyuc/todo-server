@@ -19,8 +19,14 @@ export class TodosController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        let todoToRemove = await this.todosRepository.findOne(request.params.id);
-        return await this.todosRepository.remove(todoToRemove);
+        const todoToRemove = await this.todosRepository.findOne(request.params.id);
+
+        if (!todoToRemove) {
+            response.status(404);
+            return { message: 'Post not found.' };
+        }
+        await this.todosRepository.remove(todoToRemove);
+        return { message: 'Deleted.' };
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
