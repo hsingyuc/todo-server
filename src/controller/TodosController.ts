@@ -7,20 +7,48 @@ export class TodosController {
     private todosRepository = getRepository(Todos);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.todosRepository.find();
+        const foundAll = await this.todosRepository.find();
+
+        if (!foundAll) {
+            response.status(404);
+            return { message: 'Todos not found.' };
+        }
+        return foundAll;
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        return this.todosRepository.findOne(request.params.id);
+        const foundOne = await this.todosRepository.findOne(request.params.id);
+
+        if (!foundOne) {
+            response.status(404);
+            return { message: 'Todo not found.' };
+        }
+        return foundOne;
     }
 
     async create(request: Request, response: Response, next: NextFunction) {
-        return this.todosRepository.save(request.body);
+        if (!request.body.filename || !request.body.content) {
+            response.status(422);
+            return { message: "Empty form won't be created." }
+        }
+
+        const todoCreated = await this.todosRepository.save(request.body);
+        if (!todoCreated) {
+            response.status(500);
+            return { message: 'Todo could not be created.' };
+        }
+        return todoCreated;
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        let todoToRemove = await this.todosRepository.findOne(request.params.id);
-        return await this.todosRepository.remove(todoToRemove);
+        const todoToRemove = await this.todosRepository.findOne(request.params.id);
+
+        if (!todoToRemove) {
+            response.status(404);
+            return { message: 'Todo not found.' };
+        }
+        await this.todosRepository.remove(todoToRemove);
+        return { message: 'Deleted.' };
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
@@ -28,7 +56,7 @@ export class TodosController {
 
         if (!foundOne) {
             response.status(404);
-            return { message: 'Post not found.' };
+            return { message: 'Todo not found.' };
         } else {
             try {
                 await this.todosRepository.update(request.params.id, request.body);
