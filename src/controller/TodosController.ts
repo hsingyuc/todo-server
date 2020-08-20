@@ -7,7 +7,13 @@ export class TodosController {
     private todosRepository = getRepository(Todos);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.todosRepository.find();
+        const foundAll = await this.todosRepository.find();
+
+        if (!foundAll) {
+            response.status(404);
+            return { message: 'Todos not found.' };
+        }
+        return foundAll;
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
@@ -15,7 +21,7 @@ export class TodosController {
 
         if (!foundOne) {
             response.status(404);
-            return { message: 'Post not found.' };
+            return { message: 'Todo not found.' };
         }
         return foundOne;
     }
@@ -39,7 +45,7 @@ export class TodosController {
 
         if (!todoToRemove) {
             response.status(404);
-            return { message: 'Post not found.' };
+            return { message: 'Todo not found.' };
         }
         await this.todosRepository.remove(todoToRemove);
         return { message: 'Deleted.' };
@@ -50,7 +56,7 @@ export class TodosController {
 
         if (!foundOne) {
             response.status(404);
-            return { message: 'Post not found.' };
+            return { message: 'Todo not found.' };
         } else {
             try {
                 await this.todosRepository.update(request.params.id, request.body);
