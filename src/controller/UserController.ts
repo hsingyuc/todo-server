@@ -27,8 +27,19 @@ export class UserController {
     }
 
     async create(request: Request, response: Response, next: NextFunction) {
+        if (!request.body.username || !request.body.password) {
+            response.status(422);
+            return { message: "Username and password are required." };
+        }
+
         const userObject = this.userRepository.create(request.body);
         const user = await this.userRepository.save(userObject);
+
+        if (!user) {
+            response.status(500);
+            return { message: 'User could not be created.' };
+        }
+
         return { data: { user } };
     }
 
