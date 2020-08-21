@@ -9,7 +9,7 @@ export class UserController {
     async all(request: Request, response: Response, next: NextFunction) {
         const foundAll = await this.userRepository.find();
 
-        if (!foundAll) {
+        if (foundAll) {
             response.status(404);
             return { message: 'Users not found.' };
         }
@@ -17,7 +17,13 @@ export class UserController {
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.findOne(request.params.id);
+        const foundOne = await this.userRepository.findOne(request.params.id);
+
+        if (!foundOne) {
+            response.status(404);
+            return { message: 'User not found.' };
+        }
+        return foundOne;
     }
 
     async create(request: Request, response: Response, next: NextFunction) {
