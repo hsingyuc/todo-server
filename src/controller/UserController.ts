@@ -9,7 +9,7 @@ export class UserController {
     async all(request: Request, response: Response, next: NextFunction) {
         const foundAll = await this.userRepository.find();
 
-        if (foundAll) {
+        if (!foundAll) {
             response.status(404);
             return { message: 'Users not found.' };
         }
@@ -44,8 +44,14 @@ export class UserController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        let userToRemove = await this.userRepository.findOne(request.params.id);
-        return await this.userRepository.remove(userToRemove);
+        const userToRemove = await this.userRepository.findOne(request.params.id);
+
+        if (!userToRemove) {
+            response.status(404);
+            return { message: 'User not found.' };
+        }
+        await this.userRepository.remove(userToRemove);
+        return { message: 'Deleted.' };
     }
 
 }
