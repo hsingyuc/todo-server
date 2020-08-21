@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, Up
 import { User } from "./User";
 
 @Entity()
-export class Todos {
+export class Todo {
 
 	@PrimaryGeneratedColumn()
 	id: number;

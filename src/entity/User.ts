@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeInsert, BeforeUpdate } from "typeorm";
-import { Todos } from "./Todos";
+import { Todo } from "./Todo";
 import * as bcrypt from 'bcrypt';
 
 @Entity()
@@ -23,7 +23,7 @@ export class User {
         }
     }
 
-    @OneToMany(type => Todos, todo => todo.user)
-    todos: Todos[];
+    @OneToMany(type => Todo, todo => todo.user)
+    todos: Todo[];
 
 }

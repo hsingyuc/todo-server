@@ -6,16 +6,6 @@ export class UserController {
 
     private userRepository = getRepository(User);
 
-    async all(request: Request, response: Response, next: NextFunction) {
-        const foundAll = await this.userRepository.find();
-
-        if (!foundAll) {
-            response.status(404);
-            return { message: 'Users not found.' };
-        }
-        return foundAll;
-    }
-
     async one(request: Request, response: Response, next: NextFunction) {
         const foundOne = await this.userRepository.findOne(request.params.id);
 
@@ -42,16 +32,4 @@ export class UserController {
 
         return { data: { user } };
     }
-
-    async remove(request: Request, response: Response, next: NextFunction) {
-        const userToRemove = await this.userRepository.findOne(request.params.id);
-
-        if (!userToRemove) {
-            response.status(404);
-            return { message: 'User not found.' };
-        }
-        await this.userRepository.remove(userToRemove);
-        return { message: 'Deleted.' };
-    }
-
 }

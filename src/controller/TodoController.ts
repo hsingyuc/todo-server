@@ -1,23 +1,17 @@
 import { getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
-import { Todos } from "../entity/Todos";
+import { Todo } from "../entity/Todo";
 
-export class TodosController {
+export class TodoController {
 
-    private todosRepository = getRepository(Todos);
+    private todoRepository = getRepository(Todo);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        const foundAll = await this.todosRepository.find();
-
-        if (!foundAll) {
-            response.status(404);
-            return { message: 'Todos not found.' };
-        }
-        return foundAll;
+        return this.todoRepository.find();
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        const foundOne = await this.todosRepository.findOne(request.params.id);
+        const foundOne = await this.todoRepository.findOne(request.params.id);
 
         if (!foundOne) {
             response.status(404);
@@ -32,7 +26,7 @@ export class TodosController {
             return { message: "Empty form won't be created." }
         }
 
-        const todoCreated = await this.todosRepository.save(request.body);
+        const todoCreated = await this.todoRepository.save(request.body);
         if (!todoCreated) {
             response.status(500);
             return { message: 'Todo could not be created.' };
@@ -41,26 +35,26 @@ export class TodosController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        const todoToRemove = await this.todosRepository.findOne(request.params.id);
+        const todoToRemove = await this.todoRepository.findOne(request.params.id);
 
         if (!todoToRemove) {
             response.status(404);
             return { message: 'Todo not found.' };
         }
-        await this.todosRepository.remove(todoToRemove);
+        await this.todoRepository.remove(todoToRemove);
         return { message: 'Deleted.' };
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
-        const foundOne = await this.todosRepository.findOne(request.params.id);
+        const foundOne = await this.todoRepository.findOne(request.params.id);
 
         if (!foundOne) {
             response.status(404);
             return { message: 'Todo not found.' };
         } else {
             try {
-                await this.todosRepository.update(request.params.id, request.body);
-                return this.todosRepository.findOne(request.params.id);
+                await this.todoRepository.update(request.params.id, request.body);
+                return this.todoRepository.findOne(request.params.id);
             } catch {
                 response.status(400);
                 return { message: 'Invalid parameters.' };
