@@ -7,7 +7,13 @@ export class UserController {
     private userRepository = getRepository(User);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.find();
+        const foundAll = await this.userRepository.find();
+
+        if (!foundAll) {
+            response.status(404);
+            return { message: 'Users not found.' };
+        }
+        return foundAll;
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
