@@ -8,7 +8,19 @@ export class Todo {
 	id: number;
 
 	@Column({ default: null })
-	filename: string;
+	category: string;
+
+	@Column({ default: null })
+	priority: string;
+
+	@Column()
+	startTime: string;
+
+	@Column()
+	endTime: string;
+
+	@Column({ default: null })
+	attachments: string;
 
 	@CreateDateColumn()
 	public createdAt: Date;
@@ -17,9 +29,10 @@ export class Todo {
 	public updatedAt: Date;
 
 	@Column("longtext")
-	content: string;
+	task: string;
 
 	@ManyToOne(type => User, user => user.todos, { onDelete: 'CASCADE' })
 	user: User;
+
 
 }
