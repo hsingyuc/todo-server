@@ -14,8 +14,9 @@ createConnection().then(async connection => {
 
     // register express routes from defined application routes
     Routes.forEach(route => {
-        (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-            const result = (new (route.controller as any))[route.action](req, res, next);
+        const { action, controller, method, middleware } = route;
+        (app as any)[method](route.route, middleware ? middleware : (res, req, next) => next(), (req: Request, res: Response, next: Function) => {
+            const result = (new (controller as any))[action](req, res, next);
             if (result instanceof Promise) {
                 result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
 
