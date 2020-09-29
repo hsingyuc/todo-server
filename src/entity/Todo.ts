@@ -20,7 +20,7 @@ export class Todo {
 	endTime: string;
 
 	@Column({ default: null })
-	attachments: string;
+	attachment: string;
 
 	@CreateDateColumn()
 	public createdAt: Date;

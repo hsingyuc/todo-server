@@ -21,12 +21,12 @@ export class TodoController {
     }
 
     async create(request: Request, response: Response, next: NextFunction) {
-        if (!request.body.filename || !request.body.content) {
+        if (!request.body.task) {
             response.status(422);
             return { message: "Empty form won't be created." }
         }
 
-        const todoCreated = await this.todoRepository.save(request.body);
+        const todoCreated = await this.todoRepository.save({ ...request.body, attachment: request.file.path });
         if (!todoCreated) {
             response.status(500);
             return { message: 'Todo could not be created.' };
