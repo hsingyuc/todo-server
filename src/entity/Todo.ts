@@ -34,5 +34,4 @@ export class Todo {
 	@ManyToOne(type => User, user => user.todos, { onDelete: 'CASCADE' })
 	user: User;
 
-
 }
