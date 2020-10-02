@@ -1,5 +1,6 @@
 import { UserController } from "./controller/UserController";
 import { TodoController } from "./controller/TodoController";
+import { FileController } from "./controller/FileController";
 import * as multer from 'multer';
 
 const storage = multer.diskStorage({
@@ -51,4 +52,10 @@ export const Routes = [{
     route: "/todos/:id",
     controller: TodoController,
     action: "update"
+}, {
+    method: "post",
+    route: "/upload",
+    controller: FileController,
+    action: "create",
+    middleware: upload.single('file'),
 }];
