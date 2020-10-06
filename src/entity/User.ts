@@ -6,13 +6,13 @@ import * as bcrypt from 'bcrypt';
 export class User {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    id: Number;
 
     @Column()
-    username: string;
+    username: String;
 
     @Column()
-    password: string;
+    password: String;
 
     //decorator
     @BeforeInsert()
