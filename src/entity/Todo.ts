@@ -5,22 +5,22 @@ import { User } from "./User";
 export class Todo {
 
 	@PrimaryGeneratedColumn()
-	id: number;
+	id: Number;
 
 	@Column({ default: null })
-	category: string;
+	category: String;
 
 	@Column({ default: null })
-	priority: string;
+	priority: String;
 
 	@Column()
-	startTime: string;
+	startTime: String;
 
 	@Column()
-	endTime: string;
+	endTime: String;
 
 	@Column({ default: null })
-	attachment: string;
+	attachment: String;
 
 	@CreateDateColumn()
 	public createdAt: Date;
@@ -29,7 +29,7 @@ export class Todo {
 	public updatedAt: Date;
 
 	@Column("longtext")
-	task: string;
+	task: String;
 
 	@ManyToOne(type => User, user => user.todos, { onDelete: 'CASCADE' })
 	user: User;
