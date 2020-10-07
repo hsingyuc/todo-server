@@ -41,7 +41,6 @@ export const Routes = [{
     route: "/todos",
     controller: TodoController,
     action: "create",
-    middleware: upload.single('attachment'),
 }, {
     method: "delete",
     route: "/todos/:id",
