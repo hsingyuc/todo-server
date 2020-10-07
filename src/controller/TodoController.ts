@@ -26,7 +26,7 @@ export class TodoController {
             return { message: "Empty form won't be created." }
         }
 
-        const todoCreated = await this.todoRepository.save({ ...request.body, attachment: request.file.path });
+        const todoCreated = await this.todoRepository.save({ ...request.body });
         if (!todoCreated) {
             response.status(500);
             return { message: 'Todo could not be created.' };
