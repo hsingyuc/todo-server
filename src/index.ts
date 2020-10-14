@@ -11,6 +11,7 @@ createConnection().then(async connection => {
     const app = express();
     app.use(cors());
     app.use(bodyParser.json());
+    app.use(express.static('public'));
 
     // register express routes from defined application routes
     Routes.forEach(route => {
