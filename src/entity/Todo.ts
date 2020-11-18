@@ -8,9 +8,6 @@ export class Todo {
 	id: Number;
 
 	@Column({ default: null })
-	category: String;
-
-	@Column({ default: null })
 	priority: String;
 
 	@Column()
