@@ -1,20 +1,7 @@
 import { UserController } from "./controller/UserController";
 import { TodoController } from "./controller/TodoController";
 import { FileController } from "./controller/FileController";
-import * as multer from 'multer';
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'public/uploads/')
-    },
-    filename: (req, file, cb) => {
-        let customFileName = Math.random().toString(36).substring(7),
-            parts = file.originalname.split('.'),
-            fileExtension = parts[parts.length - 1] // get file extension from original file name
-        cb(null, customFileName + '.' + fileExtension)
-    }
-})
-const upload = multer({ storage: storage })
+import upload from './upload';
 
 export const Routes = [{
     method: "get",
