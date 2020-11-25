@@ -21,9 +21,10 @@ export class TodoController {
     }
 
     async create(request: Request, response: Response, next: NextFunction) {
-        if (!request.body.task) {
+        const { task, startTime, endTime } = request.body
+        if (!task || !startTime || !endTime) {
             response.status(422);
-            return { message: "Empty form won't be created." }
+            return { message: "Please fill out the task name, start date, and end date." }
         }
 
         const todoCreated = await this.todoRepository.save({ ...request.body });
