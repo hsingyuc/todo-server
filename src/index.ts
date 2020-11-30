@@ -6,7 +6,37 @@ import { Request, Response } from "express";
 import { Routes } from "./routes";
 import * as cors from 'cors';
 
-createConnection().then(async connection => {
+const dbConnection = process.env.CLEARDB_DATABASE_URL
+    ? {
+        "url": process.env.CLEARDB_DATABASE_URL,
+    }
+    : {
+        "host": "localhost",
+        "username": "root",
+        "password": "g^e5Lr5%wqzLvu2t",
+        "database": "todo-server",
+        "port": 3306,
+    };
+createConnection({
+    "type": "mysql",
+    "synchronize": true,
+    "logging": false,
+    "entities": [
+        "src/entity/**/*.ts"
+    ],
+    "migrations": [
+        "src/migration/**/*.ts"
+    ],
+    "subscribers": [
+        "src/subscriber/**/*.ts"
+    ],
+    "cli": {
+        "entitiesDir": "src/entity",
+        "migrationsDir": "src/migration",
+        "subscribersDir": "src/subscriber"
+    },
+    ...dbConnection
+}).then(async connection => {
     // create express app
     const app = express();
     app.use(cors());
@@ -31,7 +61,7 @@ createConnection().then(async connection => {
     // ...
 
     // start express server
-    app.listen(3000);
+    app.listen(process.env.PORT || 3000);
 
     console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results");
 
