@@ -3,10 +3,10 @@
    "version": "0.0.1",
    "description": "Awesome project developed with TypeORM.",
    "devDependencies": {
-      "@types/node": "^8.0.29",
-      "typescript": "3.3.3333"
+      "@types/node": "^8.0.29"
    },
    "dependencies": {
+      "typescript": "3.3.3333",
       "@types/bcrypt": "^3.0.0",
       "@types/cors": "^2.8.7",
       "@types/express": "^4.17.7",
