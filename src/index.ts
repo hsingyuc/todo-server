@@ -6,37 +6,20 @@ import { Request, Response } from "express";
 import { Routes } from "./routes";
 import * as cors from 'cors';
 
+require('dotenv').config();
+
 const dbConnection = process.env.CLEARDB_DATABASE_URL
     ? {
-        "url": process.env.CLEARDB_DATABASE_URL,
+        type: 'mysql',
+        url: process.env.CLEARDB_DATABASE_URL,
+        entities: [
+            `${__dirname}/entity/**/*.ts`,
+        ],
+        autoSchemaSync: true,
     }
-    : {
-        "host": "localhost",
-        "username": "root",
-        "password": "g^e5Lr5%wqzLvu2t",
-        "database": "todo-server",
-        "port": 3306,
-    };
-createConnection({
-    "type": "mysql",
-    "synchronize": true,
-    "logging": false,
-    "entities": [
-        "src/entity/**/*.ts"
-    ],
-    "migrations": [
-        "src/migration/**/*.ts"
-    ],
-    "subscribers": [
-        "src/subscriber/**/*.ts"
-    ],
-    "cli": {
-        "entitiesDir": "src/entity",
-        "migrationsDir": "src/migration",
-        "subscribersDir": "src/subscriber"
-    },
-    ...dbConnection
-}).then(async connection => {
+    : null;
+
+createConnection(dbConnection as any).then(async () => {
     // create express app
     const app = express();
     app.use(cors());
